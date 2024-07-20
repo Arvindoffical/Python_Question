@@ -1,13 +1,23 @@
 class Solution:
     def restoreMatrix(self, rowSum: List[int], colSum: List[int]) -> List[List[int]]:
-        n, m = len(rowSum), len(colSum)
-        res = [[0 for _ in range(m)] for _ in range(n)]
-        for i in range(n):
-            for j in range(m):
-                nm = min(rowSum[i], colSum[j])
-                res[i][j] = nm
-                rowSum[i] -= nm
-                colSum[j] -= nm
-        return res
+        col_sum = colSum
+        row_sum = rowSum
+        
+        mat = [[0]*len(col_sum) for i in range(len(row_sum))]
+        i = 0
+        j = 0
+        while i < len(row_sum) and j < len(col_sum):
+            mat[i][j] = min(row_sum[i], col_sum[j])
+            if row_sum[i] == col_sum[j]:
+                i += 1
+                j += 1
+            elif row_sum[i] > col_sum[j]:
+                row_sum[i] -= col_sum[j]
+                j += 1
+            else:
+                col_sum[j] -= row_sum[i]
+                i += 1
+
+        return mat
     # def restoreMatrix(self, rowSum: List[int], colSum: List[int]) -> List[List[int]]:
         
