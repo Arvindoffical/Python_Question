@@ -1,30 +1,50 @@
 # class Solution:
 #     def minimumCost(self, source: str, target: str, original: List[str], changed: List[str], cost: List[int]) -> int:
+from collections import defaultdict
+from heapq import heappush, heappop
+from math import inf
+
 class Solution:
-    def minimumCost(self, source: str, target: str, original: list, changed: list, cost: list) -> int:
-        inf = 10 ** 18
-        c = [[inf] * 26 for _ in range(26)]
-        m = len(original)
+    def minimumCostFrom(self, sourceChar):
+        bests = {}
+        seenCost = defaultdict(lambda: inf)
+        seenCost[sourceChar] = 0
+        frontier = [(0, sourceChar)]
+        while len(frontier) > 0:
+            reachCost, current = heappop(frontier)
+            if current in bests:
+                continue
+            bests[current] = reachCost
+            for d, edgeCost in self.edges[current].items():
+                totalCost = reachCost + edgeCost
+                if totalCost < seenCost[d]:
+                    heappush(frontier, (totalCost, d))
+                    seenCost[d] = totalCost
+        return bests
+    def minimumCost(self, source: str, target: str, original: List[str], changed: List[str], cost: List[int]) -> int:
+        self.edges = defaultdict(lambda: {})
+        for i in range(len(original)):
+            s = original[i]
+            d = changed[i]
+            c = cost[i]
+            if d not in self.edges[s] or c < self.edges[s][d]:
+                self.edges[s][d] = c
 
-        for i in range(26):
-            c[i][i] = 0
-
-        for i in range(m):
-            c[ord(original[i]) - ord('a')][ord(changed[i]) - ord('a')] = min(c[ord(original[i]) - ord('a')][ord(changed[i]) - ord('a')], cost[i])
-
-        for k in range(26):
-            for i in range(26):
-                for j in range(26):
-                    c[i][j] = min(c[i][j], c[i][k] + c[k][j])
-
-        ans = 0
-        n = len(source)
-
-        for i in range(n):
-            ans += c[ord(source[i]) - ord('a')][ord(target[i]) - ord('a')]
-            if ans >= inf:
-                return -1
-
-        return ans
+        bests = defaultdict(lambda: {})
+        totalCost = 0
+        for s, t in zip(source, target):
+            if s != t:
+                if t in bests[s]:
+                    totalCost += bests[s][t]
+                elif len(bests[s]) > 0:
+                    return -1
+                else:
+                    best = self.minimumCostFrom(s)
+                    bests[s] = best
+                    if t in best:
+                        totalCost += best[t]
+                    else:
+                        return -1
+        return totalCost
 
         
