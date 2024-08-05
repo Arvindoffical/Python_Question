@@ -1,0 +1,10 @@
+class Solution:
+    def kthDistinct(self, arr: List[str], k: int) -> str:
+        maps = Counter(arr)
+
+        for key, val in maps.items():
+            if val == 1:
+                k -= 1
+            if k == 0:
+                return key
+        return ""   
