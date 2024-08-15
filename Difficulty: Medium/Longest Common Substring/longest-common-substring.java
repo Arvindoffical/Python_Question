@@ -20,8 +20,6 @@ class GFG {
 // } Driver Code Ends
 
 
-// User function Template for Java
-
 class Solution {
     public int longestCommonSubstr(String str1, String str2) {
         int n=str1.length();
