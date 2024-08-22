@@ -1,13 +1,16 @@
-class Solution(object):
-    def findComplement(self, num):
+class Solution:
+    def findComplement(self, num: int) -> int:
+        # given
+        listnum = bin(num)[2:]
+
+        newList =""
+
+        for stt in listnum:
+            if stt == '1':
+                newList+='0'
+            elif stt == '0':
+                newList+='1'
+
         
-        compliment = 1
-        while compliment <= num:
-            compliment = compliment << 1
-        
-        leftCompliment=compliment - 1
-        compliment=(leftCompliment) ^ num
-        
-        return compliment
-        
+        return int(newList, 2)
         
