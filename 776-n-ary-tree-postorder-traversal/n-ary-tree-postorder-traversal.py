@@ -6,13 +6,19 @@ class Node:
         self.children = children
 """
 
-class Solution(object):
-    def PostOrder(self, root, ans):
-        if root:
-            for node in root.children:
-                self.PostOrder(node, ans)
-            ans.append(root.val)
-    def postorder(self, root):
-        ans = []
-        self.PostOrder(root, ans)
-        return ans
+class Solution:
+    def postorder(self, root: 'Node') -> List[int]:
+        
+        po = []
+        def dfs(node):
+            nonlocal po
+            if not node:
+                return
+            
+            for child in node.children:
+                dfs(child)
+            po.append(node.val)
+            
+        dfs(root)
+        return po
+            
