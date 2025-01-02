@@ -1,0 +1,19 @@
+class Solution:
+    def vowelStrings(self, words: List[str], queries: List[List[int]]) -> List[int]:
+        #சூரியா அய்யா துணை | நிர்மல் ஸ்காரியா துணை  
+        def help_me_god(s):
+            vow = {'a','e','i','o','u'}
+            if s[0] in vow and s[-1] in vow:
+                return 1
+            else:
+                return 0
+
+        prefix = [0]*(len(words)+1)
+        prefix[0] = help_me_god(words[0])
+        for i in range(len(words)):
+            prefix[i+1] = prefix[i] + help_me_god(words[i])
+
+        res = []
+        for l,r in queries:
+            res.append(prefix[r+1]-prefix[l])
+        return res
