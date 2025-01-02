@@ -1,6 +1,5 @@
 class Solution:
     def vowelStrings(self, words: List[str], queries: List[List[int]]) -> List[int]:
-        #சூரியா அய்யா துணை | நிர்மல் ஸ்காரியா துணை  
         def help_me_god(s):
             vow = {'a','e','i','o','u'}
             if s[0] in vow and s[-1] in vow:
