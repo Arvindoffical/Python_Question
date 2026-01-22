@@ -6,11 +6,9 @@ class Solution {
             sum1 += nums[i];
         }
         double sum2 = sum1;
-        int j =0;
         for(int i = k;i<nums.length;i++){
-            sum2 += nums[i]-nums[j];
+            sum2 += nums[i]-nums[i-k];
             sum1 = Math.max(sum1, sum2);
-            j++;
         }
         return sum1/k;
         
